@@ -28,8 +28,3 @@ class `334_3` {
         return false
     }
 }
-
-fun main() {
-    val solution = `334_3`()
-    println(solution.increasingTriplet(intArrayOf(2, 1, 5, 0, 4, 6))) // true
-}
