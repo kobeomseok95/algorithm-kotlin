@@ -30,10 +30,3 @@ class `1456` {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
     }
 }
-
-fun main() {
-    val solution = `1456`()
-    println(solution.maxVowels("abciiidef", 3)) // 3
-    println(solution.maxVowels("aeiou", 2)) // 2
-    println(solution.maxVowels("leetcode", 3)) // 2
-}
