@@ -29,34 +29,32 @@ package leetcode.medium
  */
 class `673` {
     fun findNumberOfLIS(nums: IntArray): Int {
-        val allSubsequences = mutableListOf<List<Int>>()
-        generateSubsequences(nums, 0, mutableListOf(), allSubsequences)
-        val increasingOnes = allSubsequences.filter { isIncreasing(it) }
-        val maxLength = increasingOnes.maxOfOrNull { it.size } ?: 0
-        return increasingOnes.count { it.size == maxLength }
+        val subsequences = mutableListOf<List<Int>>().apply { setAllSubsequences(nums) }
+        val lis = subsequences.filter { it.isIncreasing() }
+        val maxLength = lis.maxOf { it.size }
+        return lis.count { it.size == maxLength }
     }
 
-    private fun generateSubsequences(
+    private fun MutableList<List<Int>>.setAllSubsequences(
         nums: IntArray,
-        index: Int,
-        current: MutableList<Int>,
-        allSubsequences: MutableList<List<Int>>
+        index: Int = 0,
+        current: MutableList<Int> = mutableListOf(),
     ) {
         if (index == nums.size) {
-            allSubsequences.add(current.toList())
+            this.add(current.toList())
             return
         }
-        generateSubsequences(nums, index + 1, current, allSubsequences)
+        setAllSubsequences(nums, index + 1, current)
         current.add(nums[index])
-        generateSubsequences(nums, index + 1, current, allSubsequences)
-        current.removeAt(current.lastIndex)
+        setAllSubsequences(nums, index + 1, current)
+        current.removeLast()
     }
 
-    private fun isIncreasing(list: List<Int>): Boolean {
-        if (list.size <= 1) return true
-
-        for (i in 1 until list.size) {
-            if (list[i] <= list[i - 1]) return false
+    private fun List<Int>.isIncreasing(): Boolean {
+        (0 until size - 1).forEach { i ->
+            if (this[i] >= this[i + 1]) {
+                return false
+            }
         }
         return true
     }
