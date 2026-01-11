@@ -16,18 +16,17 @@ import java.util.LinkedList
  * 수직 / 수평으로 인접한 land를 탐색하여 섬의 갯수를 출력하는 문제
  *
  * 시간 복잡도 : O(m * n) -> 큐에 삽입 시 방문처리하기 때문에 같은 노드에 대해 탐색하지 않음. 최대 O(m * n)
- * 공간 복잡도 : O(min(m, n)) -> 방문 큐에 최대 O(min(m, n)) 크기를 가짐.
+ * 공간 복잡도 : O(1) -> 큐에 최대 O(min(m,n)) 크기의 노드만 저장한다.
  */
-class `200` {
+class `200_2` {
     fun numIslands(grid: Array<CharArray>): Int {
         val m = grid.size
         val n = grid[0].size
-        val visited = Array(m) { BooleanArray(n) { false } }
         var answer = 0
         (0 until m).forEach { y ->
             (0 until n).forEach { x ->
-                if (!visited[y][x] && grid[y][x] == LAND) {
-                    bfs(y, x, m, n, grid, visited)
+                if (grid[y][x] == LAND) {
+                    bfs(y, x, m, n, grid)
                     answer += 1
                 }
             }
@@ -41,10 +40,9 @@ class `200` {
         m: Int,
         n: Int,
         grid: Array<CharArray>,
-        visited: Array<BooleanArray>,
     ) {
         val queue = LinkedList<Coordinate>().apply { add(Coordinate(y, x)) }
-        visited[y][x] = true
+        grid[y][x] = VISITED
         while (queue.isNotEmpty()) {
             val current = queue.poll()
             DIRECTIONS.forEach { direction ->
@@ -52,11 +50,10 @@ class `200` {
                 if (
                     moved.y in (0 until m) &&
                     moved.x in (0 until n) &&
-                    grid[moved.y][moved.x] == LAND &&
-                    !visited[moved.y][moved.x]
+                    grid[moved.y][moved.x] == LAND
                 ) {
                     queue.add(moved)
-                    visited[moved.y][moved.x] = true
+                    grid[moved.y][moved.x] = VISITED
                 }
             }
         }
@@ -73,6 +70,7 @@ class `200` {
 
     companion object {
         private const val LAND = '1'
+        private const val VISITED = '2'
         private val DIRECTIONS = listOf(
             Coordinate(y = 1, x = 0),
             Coordinate(y = -1, x = 0),
@@ -83,7 +81,7 @@ class `200` {
 }
 
 fun main() {
-    val solution = `200`()
+    val solution = `200_2`()
     println(
         solution.numIslands(
             arrayOf(
