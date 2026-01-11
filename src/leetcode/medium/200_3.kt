@@ -13,63 +13,78 @@ package leetcode.medium
  *
  * 수직 / 수평으로 인접한 land를 탐색하여 섬의 갯수를 출력하는 문제
  *
- * 시간 복잡도 : O(m * n) -> 모든 노드 방문
- * 공간 복잡도 : O(m * n) -> 최대 콜 스택 깊이 m * n (대각선으로 탐색하지 않음)
+ * 시간 복잡도 : O((m * n)^2) -> 노드 수 만큼 순회 * union find 의 find() 시 최악의 경우 시간 복잡도
+ * 공간 복잡도 : O(m * n) -> union find 공간 복잡도
  */
 class `200_3` {
     fun numIslands(grid: Array<CharArray>): Int {
         val m = grid.size
         val n = grid[0].size
-        var answer = 0
+        val unionFind = UnionFind(m, n)
         (0 until m).forEach { y ->
             (0 until n).forEach { x ->
                 if (grid[y][x] == LAND) {
-                    dfs(y, x, m, n, grid)
-                    answer += 1
+                    val current = Coordinate(y, x)
+                    unionFind.addLand(current)
+
+                    if (x + 1 < n && grid[y][x + 1] == LAND) {
+                        unionFind.union(current, Coordinate(y, x + 1))
+                    }
+                    if (y + 1 < m && grid[y + 1][x] == LAND) {
+                        unionFind.union(current, Coordinate(y + 1, x))
+                    }
                 }
             }
         }
-        return answer
-    }
-
-    private fun dfs(
-        y: Int,
-        x: Int,
-        m: Int,
-        n: Int,
-        grid: Array<CharArray>,
-    ) {
-        grid[y][x] = VISITED
-        DIRECTIONS.forEach { direction ->
-            val moved = Coordinate(y, x).move(direction)
-            if (
-                moved.y in (0 until m) &&
-                moved.x in (0 until n) &&
-                grid[moved.y][moved.x] == LAND
-            ) {
-                dfs(moved.y, moved.x, m, n, grid)
-            }
-        }
+        return unionFind.groupSize()
     }
 
     private data class Coordinate(
         val y: Int,
         val x: Int,
+    )
+
+    private class UnionFind(
+        private val m: Int,
+        private val n: Int,
     ) {
-        fun move(coordinate: Coordinate): Coordinate {
-            return Coordinate(y + coordinate.y, x + coordinate.x)
+        private val parent = IntArray(m * n) { it }
+        private val landIndices = mutableSetOf<Int>()
+
+        private fun toIndex(y: Int, x: Int): Int {
+            return y * n + x
+        }
+
+        fun addLand(c: Coordinate) {
+            landIndices.add(toIndex(c.y, c.x))
+        }
+
+        fun find(index: Int): Int {
+            if (parent[index] != index) {
+                return find(parent[index])
+            }
+            return index
+        }
+
+        fun union(c1: Coordinate, c2: Coordinate) {
+            val c1Index = toIndex(c1.y, c1.x)
+            val c1Root = find(c1Index)
+            val c2Index = toIndex(c2.y, c2.x)
+            val c2Root = find(c2Index)
+            landIndices.add(c1Index)
+            landIndices.add(c2Index)
+            if (c1Root != c2Root) {
+                parent[c2Root] = c1Root
+            }
+        }
+
+        fun groupSize(): Int {
+            return landIndices.count { find(it) == it }
         }
     }
 
     companion object {
         private const val LAND = '1'
-        private const val VISITED = '2'
-        private val DIRECTIONS = listOf(
-            Coordinate(y = 1, x = 0),
-            Coordinate(y = -1, x = 0),
-            Coordinate(y = 0, x = 1),
-            Coordinate(y = 0, x = -1),
-        )
     }
 }
 
