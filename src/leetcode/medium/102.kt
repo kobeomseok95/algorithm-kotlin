@@ -8,7 +8,7 @@ package leetcode.medium
  * - -1000 <= Node.val <= 1000
  *
  * 시간 복잡도: O(n)
- * 공간 복잡도: O(2 log n)
+ * 공간 복잡도: O(n)
  */
 class `102` {
     fun levelOrder(root: TreeNode?): List<List<Int>> {
