@@ -33,3 +33,6 @@ bin/
 
 .idea
 algorithm.iml
+
+### Claude ###
+.omc/
