@@ -27,8 +27,9 @@ package leetcode.medium
  * - There are no repeated edges and no self-loops in the graph.
  * - The Graph is connected and all nodes can be visited starting from the given node.
  *
- * 시간 복잡도: O(n)
- * 공간 복잡도: O()
+ * node 수 = N, 간선 수 = E
+ * 시간 복잡도: O(N + E)
+ * 공간 복잡도: O(N + E)
  */
 
 /**
