@@ -13,7 +13,7 @@
 - [ ] 133 -> BFS 로 풀어보기
 - [ ] 207 -> 위상 정렬 + BFS, DFS, Union-Find 로 풀어보기
 - [ ] 322 -> Unbounded Knapsack 방식으로 풀어보기
-- [ ] 33 -> binary search 방식으로 풀어보기
+- [x] 33 -> binary search 방식으로 풀어보기
 - [ ] 81 -> binary search 방식으로 풀어보기
 - [ ] 981 -> binary search 응용
 - [ ] 721 -> Union Find로 풀이해보기
