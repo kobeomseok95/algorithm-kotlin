@@ -22,12 +22,12 @@ import java.util.PriorityQueue
  * - If all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
  * - If 99% of all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
  *
- * 시간 복잡도:
- * 공간 복잡도:
+ * 시간 복잡도: addNum() = O(log n), findMedian() - O(1)
+ * 공간 복잡도: O(N)
  */
 class `295` {
-    private val maxHeap = PriorityQueue<Int> { a, b -> b - a }
-    private val minHeap = PriorityQueue<Int> { a, b -> a - b }
+    private val maxHeap = PriorityQueue<Int>(Comparator.reverseOrder())
+    private val minHeap = PriorityQueue<Int>()
 
     private val equalSize
         get() = minHeap.size == maxHeap.size
