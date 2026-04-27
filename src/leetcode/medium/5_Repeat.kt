@@ -7,8 +7,8 @@ package leetcode.medium
  * - 1 <= s.length <= 1000
  * - s consist of only digits and English letters.
  *
- * 시간 복잡도: O()
- * 공간 복잡도: O()
+ * 시간 복잡도: O(N^2)
+ * 공간 복잡도: O(1)
  */
 class `5_Repeat` {
     fun longestPalindrome(s: String): String {
