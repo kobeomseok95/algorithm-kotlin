@@ -16,19 +16,15 @@ class `24` {
         result.next = head
 
         var current: ListNode? = result
-        while (current?.next != null) {
-            if (current.next?.next != null) {
-                val next= current.next
-                val next2 = next?.next
+        while (current?.next?.next != null) {
+            val next= current.next
+            val next2 = next?.next
 
-                next?.next = next2?.next
-                next2?.next = next
+            next?.next = next2?.next
+            next2?.next = next
 
-                current.next = next2
-                current = next
-            } else {
-                break
-            }
+            current.next = next2
+            current = next
         }
 
         return result.next
